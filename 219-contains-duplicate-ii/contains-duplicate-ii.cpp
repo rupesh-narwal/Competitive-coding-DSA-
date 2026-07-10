@@ -1,17 +1,17 @@
-#include <vector>
-#include <unordered_map>
-using namespace std;
-
 class Solution {
 public:
     bool containsNearbyDuplicate(vector<int>& nums, int k) {
-        unordered_map<int, int> mp;
+        unordered_set<int> window;
 
         for (int i = 0; i < nums.size(); i++) {
-            if (mp.count(nums[i]) && i - mp[nums[i]] <= k) {
+
+            if (window.count(nums[i]))
                 return true;
-            }
-            mp[nums[i]] = i;
+
+            window.insert(nums[i]);
+
+            if (window.size() > k)
+                window.erase(nums[i - k]);
         }
 
         return false;
